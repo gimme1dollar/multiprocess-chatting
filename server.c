@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 			if (pid > 0) {
 				while(1) {
 					if(strcmp(con, buf) && id != *clnt_curr) {
+						memset(buf, '\0', BUF_SIZE);
 						strcpy(buf, con);
 						if (name_yet == 1) {
 							write(clnt_sock, buf, BUF_SIZE);
@@ -100,6 +101,7 @@ int main(int argc, char *argv[])
 			}
 			else if (pid == 0) {
 				while(1) {
+					memset(buf, '\0', BUF_SIZE);
 					str_len = read(clnt_sock, buf, BUF_SIZE);
 					if(str_len != 0) {
 						if(!strcmp(buf, "quit") || !strcmp(buf, "Quit")) {
@@ -161,7 +163,7 @@ void read_childproc(int sig)
 	if (WIFEXITED(status))
 	{
 		printf("Removed proc id: %d \n", pid);
-		printf("Removed child id: %d \n", WEXITSTATUS(status));
+		printf("Child send: %d \n", WEXITSTATUS(status));
 	}
 }
 void error_handling(char *message)

@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
 	printf("Welcome!\n");
 	printf("What is your name?\n");
 	printf("Name : ");
-	scanf("%s", buf);
+        fgets(buf, BUF_SIZE, stdin);
+	buf[strlen(buf)-1] = '\0';
 	write(sock, buf, BUF_SIZE);
 	
 
@@ -62,7 +63,7 @@ void read_routine(int sock, char *buf)
 {
 	while (1)
 	{
-		memset(buf, 0x00, BUF_SIZE);
+		memset(buf, '\0', BUF_SIZE);
 		int str_len = read(sock, buf, BUF_SIZE);
 		if(str_len == 0) {
                         break;
@@ -74,9 +75,9 @@ void write_routine(int sock, char *buf)
 {	
 	while (1)
 	{
-		memset(buf, 0x00, BUF_SIZE);
-                scanf("%s", buf);
-		buf[strlen(buf)] = '\0';
+		memset(buf, '\0', BUF_SIZE);
+                fgets(buf, BUF_SIZE, stdin);
+		buf[strlen(buf)-1] = '\0';
 
                 if(write(sock, buf, BUF_SIZE) <= 0)
                 {
